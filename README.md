@@ -8,7 +8,7 @@ Local volumes are similar to hostPath volumes, but they provide some additional 
 However, there are also some limitations to using local volumes. For example, if a Pod is rescheduled to a different node, it will lose access to its local volume and any data stored in it. Additionally, local volumes cannot be easily replicated across multiple nodes, which can limit their usefulness for some types of applications.
 
 ## How do you define a Local Volume in k8/OCP?
-k8 docs: https://kubernetes.io/docs/concepts/storage/volumes/#local
+[k8 docs.](https://kubernetes.io/docs/concepts/storage/volumes/#local) 
 
 In k8/OCP, persistent volumes (PVs) can define a `spec.local.path` value to allow access to local storage devices such as disks or partions. 
 
@@ -38,9 +38,9 @@ spec:
           - example-node
 ```
 
-Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-create-cr-manual_persistent-storage-local
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#create-local-pvc_persistent-storage-local)
 
-**NOTE:** The persistent volumes using local volumes need to specify a `nodeAffinity` as the paths/data referenced in the PV will only exist in a single node. In addition, make sure that the spec.local.path field uses the by-id path, such as /dev/disk/by-id/wwn. This will ensure consistency across reboots. 
+**NOTE:** The persistent volumes using local volumes need to specify a `nodeAffinity` as the paths/data referenced in the PV will only exist in a single node. In addition, make sure that the spec.local.path field uses the by-id path, such as /dev/disk/by-id/wwn. This will ensure consistency across reboots. The LSO does not currently support the `LocalVolume` resource `by-path` or `by-partuuid`, such as `/dev/disk/by-path/wwn` or `/dev/disk/by-partuuid`. 
 
 ## The Local Storage Operator (LSO)
 
@@ -212,7 +212,7 @@ spec:
 ```
 Like in the `volumeType: Filesystem` example, the nodeselector matches 3 nodes explicitly by hostname and specifies the devices to use in `spec.storageClassDevices.devicePaths`. When using `volumeMode: block`, the raw block volume is not formatted with a file system. You must ensure that any application running in pods consuming this PV can use raw block devices. 
 
-NOTE: The Local Storage Operator does not support the `LocalVolume` resource `by-path` or `by-partuuid`, such as `/dev/disk/by-path/wwn` or `/dev/disk/by-partuuid`.
+**NOTE:** The Local Storage Operator does not currently support the `LocalVolume` resource `by-path` or `by-partuuid`, such as `/dev/disk/by-path/wwn` or `/dev/disk/by-partuuid`. Ensure that `by-id` is used.
 
 Once you have your `LocalVolume` object, you can create it using the command below:
 ```
@@ -300,9 +300,8 @@ spec:
 
 Sources: 
 
-https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-volume-cr_persistent-storage-local
-
-https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#create-local-pvc_persistent-storage-local
+[1](https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-volume-cr_persistent-storage-local)
+[2](https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#create-local-pvc_persistent-storage-local)
 
 ## Automating discovery (Tech Preview)
 
@@ -316,15 +315,13 @@ Pre-requisites:
   - You have attached local disks to OpenShift Container Platform nodes.
   - You have access to the OpenShift Container Platform web console and the oc command-line interface (CLI).
 
-Source: 
-https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-storage-discovery_persistent-storage-local
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
 
 When using local volume discovery, a custom resource called `LocalVolumeDisccoveryResults` is created. This object holds the results of the volume discovery so that OCP knows the state of the disks that were discovered. This is the source of truth for the UI elements (i.e. the `Disks` tab under `Compute` → `Nodes`).
 
-Source: 
-https://github.com/openshift/local-storage-operator/blob/master/api/v1alpha1/localvolumediscoveryresult_types.go
-
-https://github.com/openshift/local-storage-operator/tree/master/diskmaker/discovery
+Sources:
+[1](https://github.com/openshift/local-storage-operator/blob/master/api/v1alpha1/localvolumediscoveryresult_types.go)
+[2](https://github.com/openshift/local-storage-operator/tree/master/diskmaker/discovery)
 
 
 ## Enable Automatic Discovery of local devices
@@ -340,7 +337,7 @@ To enable automatic discovery of local devices from the web console:
 
 A local volume discovery instance named `auto-discover-devices` is displayed.
 
-Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-storage-discovery_persistent-storage-local
+[Source}(https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
 
 ## Display a continuous list of available devices on a node
 
@@ -355,9 +352,8 @@ Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_st
   NOTE: The 'Disks' tab will only be available if local volume discovery has been configured.
 
   The device list updates continuously as local disks are added or removed. You can filter the devices by name, status, type, model, capacity, and mode.
-
-Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-storage-discovery_persistent-storage-local
-
+  
+[Source}(https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
 
 ## How to automatically provision local volumes for the discovered devices from the web console
 
@@ -374,9 +370,8 @@ Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_st
   e) Select the disk type, mode, size, and limit you want to apply to the local volume set, and click Create.
 
   A message displays after several minutes, indicating that the "Operator reconciled successfully."
-
-Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-storage-discovery_persistent-storage-local
-
+  
+[Source}(https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
 
 ## How to provision local volumes for the discovered devices from the CLI
 
@@ -435,13 +430,13 @@ local-pv-3fa1c73    100Gi      RWO            Delete           Available        
 
 NOTE: Results are deleted after they are removed from the node. Symlinks must be manually removed.
 
-Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-storage-discovery_persistent-storage-local
+[Source}(https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
 
 ## Using tolerations with Local Storage Operator pods
 
-As an OCP administrator, you will run across use-cases where you want to ensure that specific nodes are available for a specific subset of workloads. Typically, taints and tolerations are the cleanest way to achieve this goal. In order to alloow LSO to use tainted nodes, you must add tolerations to the `Pod` or `DaemonSet` definitions. 
+As an OCP administrator, you will run across use-cases where you want to ensure that specific nodes are available for a specific subset of workloads. Typically, taints and tolerations are the cleanest way to achieve this goal. In order to allow LSO to use tainted nodes, you must add tolerations to the `Pod` or `DaemonSet` definitions. 
 
-You apply tolerations to the Local Storage Operator pod through the LocalVolume resource and apply taints to a node through the node specification. A taint on a node instructs the node to repel all pods that do not tolerate the taint. Using a specific taint that is not on other pods ensures that the Local Storage Operator pod can also run on that node.
+You apply tolerations to the Local Storage Operator pod through the LocalVolume resource and apply taints to a node through the node specification. A taint on a node instructs the node to prevent scheduling of all pods that do not tolerate the taint. Using a specific taint that is not on other pods ensures that the Local Storage Operator pod can also run on that node.
 
 
 Prerequisites
@@ -483,19 +478,17 @@ spec:
 
 The defined tolerations will be passed to the resulting daemon sets, allowing the diskmaker and provisioner pods to be created for nodes that contain the specified taints.
 
-Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-tolerations_persistent-storage-local
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-tolerations_persistent-storage-local)
 
 ## Expanding Local Volumes
 
 In OCP 4.10+, it is possible to set `AllowVolumeExpansion` in the storageclass object for local volumes and manually expand persistent volumes (PVs) and persistent volume claims (PVCs) created by using the local storage operator (LSO).
 
-Source: https://github.com/openshift/local-storage-operator/commit/fecd35b92aaa3281f8695ad14257f0ee25fcac79#diff-60c165f7bf5f76ef98ba5a1d03c544c3fad40ab4178c0dbe73774b8c27841501
 
-With the commit above, it became possible to follow the procedure described in the offical RH docs below to expand a PV/PVC. Note that the commit was in the 4.8 branch, but the support for local-volume expansion (and documenation) started with 4.10+. 
+
+With the commit [here](https://github.com/openshift/local-storage-operator/commit/fecd35b92aaa3281f8695ad14257f0ee25fcac79#diff-60c165f7bf5f76ef98ba5a1d03c544c3fad40ab4178c0dbe73774b8c27841501), it became possible to follow the procedure described in the offical RH docs below to expand a PV/PVC. Note that the commit was in the 4.8 branch, but the support for local-volume expansion (and documenation) started with 4.10+. 
 
 Expanding persistent volumes:https://docs.openshift.com/container-platform/4.10/storage/expanding-persistent-volumes.html
-
-https://docs.openshift.com/container-platform/4.10/storage/expanding-persistent-volumes.html#expanding-local-volumes_expanding-persistent-volumes
 
 Steps for expanding local-volume type persistent volumes:
 
@@ -517,6 +510,8 @@ allowVolumeExpansion: true
   4) For the PVC, set `.spec.resources.requests.storage` to match the new size.
 
 The kubelet should automatically expand the underlying file system on the volume, if necessary, and update the status field of the PVC to reflect the new size.
+
+[Source](https://docs.openshift.com/container-platform/4.12/storage/expanding-persistent-volumes.html#expanding-local-volumes_expanding-persistent-volumes)
 
 ## Local Storage Operator Metrics
 
@@ -540,13 +535,13 @@ To use these metrics, be sure to:
 
   - When upgrading to OpenShift Container Platform 4.9 or later, enable metric support manually by adding the `operator-metering=true` label to the namespace.
 
-Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-storage-metrics_persistent-storage-local
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-metrics_persistent-storage-local)
 
 ## Using local storage for Openshift Virtualization guests
 
 When using storage provisioned by the LSO to back Openshift Virtualization guests, sometimes you will need/want to move these guests from node to node. In order to achieve this, you must clone the guests disk to a new local volume on the destination node. This process uses a `DataVolume` manifest specifying the source PVC `spec.volumes.persistentVolumeClaim.claimName` and the destination PV using a label. 
 
-https://docs.openshift.com/container-platform/4.10/virt/virtual_machines/virtual_disks/virt-moving-local-vm-disk-to-different-node.html
+[Source](https://docs.openshift.com/container-platform/4.12/virt/virtual_machines/virtual_disks/virt-moving-local-vm-disk-to-different-node.html)
 
 ## How do I remove or delete a local volume or local volume set?
 
@@ -592,7 +587,7 @@ $ oc delete pv <pv-name>
   $ rm <symlink>
   ```
 
-Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-removing-device_persistent-storage-local
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-removing-device_persistent-storage-local)
 
 ## Uninstalling the Local Storage Operator
 
@@ -626,10 +621,8 @@ $ oc delete pv <pv-name>
 $ oc delete project openshift-local-storage
 ```
 
-Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-storage-uninstall_persistent-storage-local
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-uninstall_persistent-storage-local)
 
 ## local-storage-operator Github
 
-Below is the upstream github project for the local storage operator. 
-
-https://github.com/openshift/local-storage-operator
+The upstream local storage operator github can be found [here](https://github.com/openshift/local-storage-operator).
