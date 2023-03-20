@@ -16,7 +16,7 @@ graph LR
     LSO -->|Manages| StorageClass
 ```
 
-The Local Storage Operator (LSO) allows an administrator to configure a storageclass to provision and manage persistent volumes of the local volume type. This greatly simplifies the management of local storage in an Openshift cluster. It provides a declarative approach to managing local storage and automates many of the manual tasks associated with creating and managing local volumes.
+The `Local Storage Operator (LSO)` allows an administrator to configure a storageclass to provision and manage persistent volumes of the local volume type. This greatly simplifies the management of local storage in an Openshift cluster. It provides a declarative approach to managing local storage and automates many of the manual tasks associated with creating and managing local volumes.
 
 The Local Storage Operator allows you to define local storage classes, which represent local storage devices attached to worker nodes in your cluster. These local storage classes can be used to provision local volumes on those nodes. When a Pod requests a local volume using one of these storage classes, the Local Storage Operator ensures that the volume is created and attached to the correct node.
 
@@ -27,7 +27,7 @@ Overall, the Local Storage Operator simplifies the management of local storage i
 [Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html)
 
 ## What is a VolumeAttachment?
-A VolumeAttachment is a resource that represents the connection between a PersistentVolume and a node in the cluster. When a Pod is scheduled on a node, the Kubernetes scheduler tries to find a suitable PersistentVolume to bind to the Pod's PersistentVolumeClaim. If a suitable PersistentVolume is found, a VolumeAttachment is created to represent the connection between the PersistentVolume and the node where the Pod is running.
+A `VolumeAttachment` is a resource that represents the connection between a `PersistentVolume` and a `node` in the cluster. When a `Pod` is scheduled on a `node`, the kube-scheduler tries to find a suitable `PersistentVolume` to bind to the Pod's `PersistentVolumeClaim`. If a suitable `PersistentVolume` is found, a `VolumeAttachment` is created to represent the connection between the `PersistentVolume` and the `node` where the `Pod` is running.
 
 The VolumeAttachment resource contains information about the PersistentVolume, the node where the Pod is running, and the mount point where the PersistentVolume is attached to the node. This information is used by the kubelet to mount the PersistentVolume into the Pod's container.
 
