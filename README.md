@@ -1,48 +1,18 @@
 # Local Storage Operator
 
-## What is a Local Volume?
-In Kubernetes, a `local volume` represents a storage volume that is physically attached to the node where the Pod is scheduled. This means that the data stored in the local volume is only accessible to the Pod running on that specific node, and not to other Pods in the cluster. Local volumes are useful for storing data that is specific to a particular node or Pod, such as node-specific logs or cache data. 
-
-Local volumes are similar to hostPath volumes, but they provide some additional benefits. Specifically, local volumes allow you to decouple the Pod from the underlying node's file system layout, which can help with maintainability and portability.
-
-However, there are also some limitations to using local volumes. For example, if a Pod is rescheduled to a different node, it will lose access to its local volume and any data stored in it. Additionally, local volumes cannot be easily replicated across multiple nodes, which can limit their usefulness for some types of applications.
-
-## How do you define a Local Volume in k8/OCP?
-[k8 docs.](https://kubernetes.io/docs/concepts/storage/volumes/#local) 
-
-In k8/OCP, persistent volumes (PVs) can define a `spec.local.path` value to allow access to local storage devices such as disks or partions. 
-
-I.e.
-```
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: example-pv-filesystem
-spec:
-  capacity:
-    storage: 100Gi
-  volumeMode: Filesystem 
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
-  storageClassName: local-storage 
-  local:
-    path: /dev/xvdf 
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - example-node
-```
-
-[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#create-local-pvc_persistent-storage-local)
-
-**NOTE:** The persistent volumes using local volumes need to specify a `nodeAffinity` as the paths/data referenced in the PV will only exist in a single node. In addition, make sure that the spec.local.path field uses the by-id path, such as /dev/disk/by-id/wwn. This will ensure consistency across reboots. The LSO does not currently support the `LocalVolume` resource `by-path` or `by-partuuid`, such as `/dev/disk/by-path/wwn` or `/dev/disk/by-partuuid`. 
-
 ## The Local Storage Operator (LSO)
+```mermaid
+graph LR
+    Pod((Pod)) -->|Requests local storage using a StorageClass| StorageClass((StorageClass))
+    StorageClass -->|Defines a LocalVolume| LocalVolume((LocalVolume))
+    LocalVolume -->|Represents a physical storage device| Device((Device))
+    Device -->|Mounts the LocalVolume| Node((Node))
+    Pod -->|Connects to a LocalVolume via a VolumeAttachment| VolumeAttachment((VolumeAttachment))
+    VolumeAttachment -->|Represents a connection between the Pod and the LocalVolume| LocalVolume
+    VolumeAttachment -->|Attaches the LocalVolume to the Node| Node
+    VolumeAttachment -->|Manages the lifecycle of the LocalVolume| Lifecycle((Lifecycle))
+    Lifecycle -->|Ensures the LocalVolume is deleted when no longer needed| VolumeDeletion((VolumeDeletion))
+```
 
 The Local Storage Operator (LSO) allows an administrator to configure a storageclass to provision and manage persistent volumes of the local volume type. This greatly simplifies the management of local storage in an Openshift cluster. It provides a declarative approach to managing local storage and automates many of the manual tasks associated with creating and managing local volumes.
 
@@ -145,6 +115,59 @@ local-storage-operator.4.2.26-202003230335   Local Storage   4.2.26-202003230335
 After all checks have passed, the Local Storage Operator is installed successfully.
 
 [Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-install_persistent-storage-local)
+
+## Custom resources managed by the LSO
+```mermaid
+graph LR
+    User -->|Enables| LocalVolumeDiscovery
+    User -->|Creates| LocalVolumeSet
+    User -->|Creates| LocalVolume
+    LocalStorageOperator -->|Manages| LocalVolumeDiscovery
+    LocalStorageOperator -->|Manages| LocalVolume
+    LocalStorageOperator -->|Manages| StorageClass
+```
+
+## What is a Local Volume?
+In Kubernetes, a `local volume` represents a storage volume that is physically attached to the node where the Pod is scheduled. This means that the data stored in the local volume is only accessible to the Pod running on that specific node, and not to other Pods in the cluster. Local volumes are useful for storing data that is specific to a particular node or Pod, such as node-specific logs or cache data. 
+
+Local volumes are similar to hostPath volumes, but they provide some additional benefits. Specifically, local volumes allow you to decouple the Pod from the underlying node's file system layout, which can help with maintainability and portability.
+
+However, there are also some limitations to using local volumes. For example, if a Pod is rescheduled to a different node, it will lose access to its local volume and any data stored in it. Additionally, local volumes cannot be easily replicated across multiple nodes, which can limit their usefulness for some types of applications.
+
+## How do you define a Local Volume in k8/OCP?
+[k8 docs.](https://kubernetes.io/docs/concepts/storage/volumes/#local) 
+
+In k8/OCP, persistent volumes (PVs) can define a `spec.local.path` value to allow access to local storage devices such as disks or partions. 
+
+I.e.
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: example-pv-filesystem
+spec:
+  capacity:
+    storage: 100Gi
+  volumeMode: Filesystem 
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage 
+  local:
+    path: /dev/xvdf 
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - example-node
+```
+
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#create-local-pvc_persistent-storage-local)
+
+**NOTE:** The persistent volumes using local volumes need to specify a `nodeAffinity` as the paths/data referenced in the PV will only exist in a single node. In addition, make sure that the spec.local.path field uses the by-id path, such as /dev/disk/by-id/wwn. This will ensure consistency across reboots. The LSO does not currently support the `LocalVolume` resource `by-path` or `by-partuuid`, such as `/dev/disk/by-path/wwn` or `/dev/disk/by-partuuid`. 
 
 ## Using the Local Storage Operator to provision local volumes
 
