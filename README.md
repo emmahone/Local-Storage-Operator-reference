@@ -10,8 +10,8 @@ graph LR
     Pod -->|Connects to a LocalVolume via a VolumeAttachment| VolumeAttachment((VolumeAttachment))
     VolumeAttachment -->|Represents a connection between the Pod and the LocalVolume| LocalVolume
     VolumeAttachment -->|Attaches the LocalVolume to the Node| Node
-    VolumeAttachment -->|Manages the lifecycle of the LocalVolume| Lifecycle((Lifecycle))
-    Lifecycle -->|Ensures the LocalVolume is deleted when no longer needed| VolumeDeletion((VolumeDeletion))
+    VolumeAttachment -->|Manages the lifecycle of the LocalVolume| LSO(("Local Storage Operator"))
+    LSO -->|Ensures the LocalVolume is deleted when no longer needed| VolumeDeletion((VolumeDeletion))
 ```
 
 The Local Storage Operator (LSO) allows an administrator to configure a storageclass to provision and manage persistent volumes of the local volume type. This greatly simplifies the management of local storage in an Openshift cluster. It provides a declarative approach to managing local storage and automates many of the manual tasks associated with creating and managing local volumes.
