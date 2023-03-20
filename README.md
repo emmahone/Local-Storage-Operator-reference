@@ -368,7 +368,7 @@ To enable automatic discovery of local devices from the web console:
 
 A local volume discovery instance named `auto-discover-devices` is displayed.
 
-[Source}(https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
 
 ## Display a continuous list of available devices on a node
 
@@ -384,7 +384,7 @@ A local volume discovery instance named `auto-discover-devices` is displayed.
 
   The device list updates continuously as local disks are added or removed. You can filter the devices by name, status, type, model, capacity, and mode.
   
-[Source}(https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
 
 ## How to automatically provision local volumes for the discovered devices from the web console
 
@@ -402,7 +402,7 @@ A local volume discovery instance named `auto-discover-devices` is displayed.
 
   A message displays after several minutes, indicating that the "Operator reconciled successfully."
   
-[Source}(https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
 
 ## How to provision local volumes for the discovered devices from the CLI
 
@@ -461,7 +461,7 @@ local-pv-3fa1c73    100Gi      RWO            Delete           Available        
 
 NOTE: Results are deleted after they are removed from the node. Symlinks must be manually removed.
 
-[Source}(https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
 
 ## Using tolerations with Local Storage Operator pods
 
@@ -518,8 +518,6 @@ In OCP 4.10+, it is possible to set `AllowVolumeExpansion` in the storageclass o
 
 
 With the commit [here](https://github.com/openshift/local-storage-operator/commit/fecd35b92aaa3281f8695ad14257f0ee25fcac79#diff-60c165f7bf5f76ef98ba5a1d03c544c3fad40ab4178c0dbe73774b8c27841501), it became possible to follow the procedure described in the offical RH docs below to expand a PV/PVC. Note that the commit was in the 4.8 branch, but the support for local-volume expansion (and documenation) started with 4.10+. 
-
-Expanding persistent volumes:https://docs.openshift.com/container-platform/4.10/storage/expanding-persistent-volumes.html
 
 Steps for expanding local-volume type persistent volumes:
 
