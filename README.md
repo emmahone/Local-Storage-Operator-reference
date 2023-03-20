@@ -348,13 +348,14 @@ Pre-requisites:
   - You have attached local disks to OpenShift Container Platform nodes.
   - You have access to the OpenShift Container Platform web console and the oc command-line interface (CLI).
 
-[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
+
 
 When using local volume discovery, a custom resource called `LocalVolumeDisccoveryResults` is created. This object holds the results of the volume discovery so that OCP knows the state of the disks that were discovered. This is the source of truth for the UI elements (i.e. the `Disks` tab under `Compute` → `Nodes`).
 
 Sources:
-[1](https://github.com/openshift/local-storage-operator/blob/master/api/v1alpha1/localvolumediscoveryresult_types.go)
-[2](https://github.com/openshift/local-storage-operator/tree/master/diskmaker/discovery)
+[1](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-discovery_persistent-storage-local)
+[2](https://github.com/openshift/local-storage-operator/blob/master/api/v1alpha1/localvolumediscoveryresult_types.go)
+[3](https://github.com/openshift/local-storage-operator/tree/master/diskmaker/discovery)
 
 
 ## Enable Automatic Discovery of local devices
