@@ -184,7 +184,7 @@ spec:
         - /path/to/device 
 ```
 
-Note that in this example, the nodeselector matches 3 nodes explicitly by hostname and the devices to use by path unde In case others hit that, when you press the 'Save for Later' button, it brings you to the 'Revise Goals' page. That is where the goals 'disappeared'. If you go back to 'My Individual Goals' all 4 will show up again.r `spec.storageClassDevices.devicePaths`. It also sets the `spec.storageClassDevices.volumeMode` to `Filesystem` and `spec.storageClassDevices.fsType` to `xfs`. It is important to ensure that the `spec.storageClassDevices.storageClassName` value is unique for each set of local volumes!
+Note that in this example, the nodeselector matches 3 nodes explicitly by hostname and the devices to use by path under `spec.storageClassDevices.devicePaths`. It also sets the `spec.storageClassDevices.volumeMode` to `Filesystem` and `spec.storageClassDevices.fsType` to `xfs`. It is important to ensure that the `spec.storageClassDevices.storageClassName` value is unique for each set of local volumes!
 
 To define a LocalVolume with volumeMode `Block`, you can use a `LocalVolume` object like the one below:
 
