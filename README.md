@@ -1,6 +1,13 @@
 # Local Storage Operator
 
-## Local Volumes in k8/OCP
+## What is a Local Volume?
+In Kubernetes, a `local volume` represents a storage volume that is physically attached to the node where the Pod is scheduled. This means that the data stored in the local volume is only accessible to the Pod running on that specific node, and not to other Pods in the cluster. Local volumes are useful for storing data that is specific to a particular node or Pod, such as node-specific logs or cache data. 
+
+Local volumes are similar to hostPath volumes, but they provide some additional benefits. Specifically, local volumes allow you to decouple the Pod from the underlying node's file system layout, which can help with maintainability and portability.
+
+However, there are also some limitations to using local volumes. For example, if a Pod is rescheduled to a different node, it will lose access to its local volume and any data stored in it. Additionally, local volumes cannot be easily replicated across multiple nodes, which can limit their usefulness for some types of applications.
+
+## How do you define a Local Volume in k8/OCP?
 k8 docs: https://kubernetes.io/docs/concepts/storage/volumes/#local
 
 In k8/OCP, persistent volumes (PVs) can define a `spec.local.path` value to allow access to local storage devices such as disks or partions. 
@@ -33,13 +40,19 @@ spec:
 
 Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-create-cr-manual_persistent-storage-local
 
-Note that persistent volumes using local volumes need to specify a `nodeAffinity` as the paths/data referenced in the PV will only exist in a single node. 
+**NOTE:** The persistent volumes using local volumes need to specify a `nodeAffinity` as the paths/data referenced in the PV will only exist in a single node. In addition, make sure that the spec.local.path field uses the by-id path, such as /dev/disk/by-id/wwn. This will ensure consistency across reboots. 
 
 ## The Local Storage Operator (LSO)
 
-The Local Storage Operator (LSO) allows an administrator to configure a storageclass to provision and manage persistent volumes of the local volume type. 
+The Local Storage Operator (LSO) allows an administrator to configure a storageclass to provision and manage persistent volumes of the local volume type. This greatly simplifies the management of local storage in an Openshift cluster. It provides a declarative approach to managing local storage and automates many of the manual tasks associated with creating and managing local volumes.
 
-Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-storage-install_persistent-storage-local
+The Local Storage Operator allows you to define local storage classes, which represent local storage devices attached to worker nodes in your cluster. These local storage classes can be used to provision local volumes on those nodes. When a Pod requests a local volume using one of these storage classes, the Local Storage Operator ensures that the volume is created and attached to the correct node.
+
+In addition to volume provisioning, the Local Storage Operator also supports features such as volume resizing and volume deletion. It can also automatically handle the rescheduling of Pods if the node hosting the local volume fails.
+
+Overall, the Local Storage Operator simplifies the management of local storage in OpenShift, making it easier to provision and manage local volumes in a declarative and automated way.
+
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html)
 
 ## Installing the Local Storage Operator
 
@@ -49,7 +62,7 @@ There are two ways to install the LSO. Through the GUI and via the CLI. The firs
 $ oc adm new-project openshift-local-storage
 ```
 
-GUI:
+**GUI:**
 To install the Local Storage Operator from the web console, follow these steps:
 
   1) Log in to the OpenShift Container Platform web console.
@@ -68,7 +81,7 @@ To install the Local Storage Operator from the web console, follow these steps:
 
 Once finished, the Local Storage Operator will be listed in the Installed Operators section of the web console.
 
-CLI:
+**CLI:**
 
   1) To install the Local Storage Operator from the CLI, run the following command to get the OpenShift Container Platform major and minor version. It is required for the channel value in the next step.
 
@@ -131,7 +144,7 @@ local-storage-operator.4.2.26-202003230335   Local Storage   4.2.26-202003230335
 ```
 After all checks have passed, the Local Storage Operator is installed successfully.
 
-Source: https://docs.openshift.com/container-platform/4.10/storage/persistent_storage/persistent-storage-local.html#local-storage-install_persistent-storage-local
+[Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html#local-storage-install_persistent-storage-local)
 
 ## Using the Local Storage Operator to provision local volumes
 
@@ -407,7 +420,7 @@ spec:
 $ oc apply -f local-volume-set.yaml
 ```
 
-  c) Verify that the local persistent volumes were dynamically provisioned based on the storage class:
+  c) Verify that the local persistent volumes were provisioned based on the storage class:
 ```
 $ oc get pv
 ```
