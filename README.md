@@ -7,12 +7,15 @@ graph LR
     StorageClass -->|Defines a LocalVolume| LocalVolume((LocalVolume))
     LocalVolume -->|Represents a physical storage device already mounted on a node| Node((Node))
     Pod -->|References a PVC| PVC((PVC))
-    PVC -->|Openshift uses a VolumeAttachment to map pod to LocalVolume| VolumeAttachment((VolumeAttachment))
-    VolumeAttachment -->|Represents a connection between the Pod and the LocalVolume| LocalVolume
+    PVC -->|Correlates| PV((PV))
+    PV -->|Represents| LocalVolume
+    StorageClass -->|Creates| PV((PV))
+    VolumeAttachment((VolumeAttachment)) -->|Correlates| Node((Node))
+    VolumeAttachment((VolumeAttachment)) -->|Correlates| PV((PV))
     LSO((LSO)) -->|Ensures the LocalVolume is deleted when no longer needed| VolumeDeletion((VolumeDeletion))
     LSO((LSO)) -->|Manages| LocalVolume
     LSO((LSO)) -->|Manages| StorageClass
-    LocalVolumeSet((LocalVolumeSet)) -->|Discover local storage devices on node| Node((Node))
+    LocalVolumeSet((LocalVolumeSet)) -->|Discovers local storage devices on node| Node((Node))
     LocalVolumeSet((LocalVolumeSet)) -->|Automatically manages LocalVolume objects|LocalVolume((LocalVolume))
 ```
 
