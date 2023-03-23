@@ -174,10 +174,10 @@ After all checks have passed, the Local Storage Operator is installed successful
 ## Custom resources managed by the LSO
 ```mermaid
 graph LR
-    User -->|Enables| LocalVolumeDiscovery
+    User((User)) -->|Enables| LocalVolumeDiscovery
     User -->|Creates| LocalVolumeSet
     User -->|Creates| LocalVolume
-    LocalStorageOperator -->|Manages| LocalVolumeDiscovery
+    LocalStorageOperator((LocalStorageOperator)) -->|Manages| LocalVolumeDiscovery
     LocalStorageOperator -->|Manages| LocalVolume
     LocalStorageOperator -->|Manages| StorageClass
 ```
