@@ -3,20 +3,20 @@
 ## The Local Storage Operator (LSO)
 ```mermaid
 graph LR
-    Pod((Pod)) -->|Requests local storage using a StorageClass| StorageClass((StorageClass))
-    StorageClass -->|Defines a LocalVolume| LocalVolume((LocalVolume))
-    LocalVolume -->|Represents a physical storage device already mounted on a node| Node((Node))
-    Pod -->|References a PVC| PVC((PVC))
-    PVC -->|Correlates| PV((PV))
+    Pod -->|Requests local storage using a StorageClass| StorageClass
+    StorageClass -->|Defines a LocalVolume| LocalVolume
+    LocalVolume -->|Represents a physical storage device already mounted on a node| Node
+    Pod -->|References a PVC| PVC
+    PVC -->|Correlates| PV
     PV -->|Represents| LocalVolume
-    StorageClass -->|Creates| PV((PV))
-    VolumeAttachment((VolumeAttachment)) -->|Correlates| Node((Node))
-    VolumeAttachment((VolumeAttachment)) -->|Correlates| PV((PV))
-    LSO((LSO)) -->|Ensures the LocalVolume is deleted when no longer needed| VolumeDeletion((VolumeDeletion))
-    LSO((LSO)) -->|Manages| LocalVolume
-    LSO((LSO)) -->|Manages| StorageClass
-    LocalVolumeSet((LocalVolumeSet)) -->|Discovers local storage devices on node| Node((Node))
-    LocalVolumeSet((LocalVolumeSet)) -->|Automatically manages LocalVolume objects|LocalVolume((LocalVolume))
+    StorageClass -->|Creates| PV
+    VolumeAttachment -->|Correlates| Node
+    VolumeAttachment -->|Correlates| PV
+    LSO((Local Storage Operator)) -->|Ensures the LocalVolume is deleted when no longer needed| VolumeDeletion((VolumeDeletion))
+    LSO((Local Storage Operator)) -->|Manages| LocalVolume
+    LSO((Local Storage Operator)) -->|Manages| StorageClass
+    LocalVolumeSet -->|Discovers local storage devices on node| Node
+    LocalVolumeSet -->|Automatically manages LocalVolume objects|LocalVolume
 ```
 
 The `Local Storage Operator (LSO)` allows an administrator to configure a storageclass to provision and manage persistent volumes of the `local volume` type. This greatly simplifies the management of local storage in an Openshift cluster. It provides a declarative approach to managing local storage and automates many of the manual tasks associated with creating and managing local volumes.
