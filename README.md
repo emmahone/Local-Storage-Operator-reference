@@ -5,15 +5,15 @@
 graph LR
     Pod((Pod)) -->|Requests local storage using a StorageClass| StorageClass((StorageClass))
     StorageClass -->|Defines a LocalVolume| LocalVolume((LocalVolume))
-    LocalVolume -->|Represents a physical storage device| Device((Device))
-    Device -->|Mounts the LocalVolume| Node((Node))
-    Pod -->|Connects to a LocalVolume via a VolumeAttachment| VolumeAttachment((VolumeAttachment))
+    LocalVolume -->|Represents a physical storage device already mounted on a node| Node((Node))
+    Pod -->|References a PVC| PVC((PVC))
+    PVC -->|Openshift uses a VolumeAttachment to map pod to LocalVolume| VolumeAttachment((VolumeAttachment))
     VolumeAttachment -->|Represents a connection between the Pod and the LocalVolume| LocalVolume
-    VolumeAttachment -->|Attaches the LocalVolume to the Node| Node
-    VolumeAttachment -->|Manages the lifecycle of the LocalVolume| LSO(("Local Storage Operator"))
-    LSO -->|Ensures the LocalVolume is deleted when no longer needed| VolumeDeletion((VolumeDeletion))
-    LSO -->|Manages| LocalVolume
-    LSO -->|Manages| StorageClass
+    LSO((LSO)) -->|Ensures the LocalVolume is deleted when no longer needed| VolumeDeletion((VolumeDeletion))
+    LSO((LSO)) -->|Manages| LocalVolume
+    LSO((LSO)) -->|Manages| StorageClass
+    LocalVolumeSet((LocalVolumeSet)) -->|Discover local storage devices on node| Node((Node))
+    LocalVolumeSet((LocalVolumeSet)) -->|Automatically manages LocalVolume objects|LocalVolume((LocalVolume))
 ```
 
 The `Local Storage Operator (LSO)` allows an administrator to configure a storageclass to provision and manage persistent volumes of the `local volume` type. This greatly simplifies the management of local storage in an Openshift cluster. It provides a declarative approach to managing local storage and automates many of the manual tasks associated with creating and managing local volumes.
