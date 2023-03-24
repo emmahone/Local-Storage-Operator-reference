@@ -5,7 +5,7 @@ graph LR
     StorageClass -->|Defines a LocalVolume| LocalVolume
     LocalVolume -->|Represents a physical storage device already mounted on a node| Node
     Pod -->|References a PVC| PVC
-    PV -->|Represents| LocalVolume
+    PV -->|References| LocalVolume
     StorageClass -->|Creates| PV
     VolumeAttachment -->|Correlates| Node
     VolumeAttachment -->|Correlates| PV
