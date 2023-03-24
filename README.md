@@ -3,11 +3,10 @@
 ## The Local Storage Operator (LSO)
 ```mermaid
 graph LR
-    Pod -->|Requests local storage using a StorageClass| StorageClass
+    PVC -->|Requests local storage using a StorageClass| StorageClass
     StorageClass -->|Defines a LocalVolume| LocalVolume
     LocalVolume -->|Represents a physical storage device already mounted on a node| Node
     Pod -->|References a PVC| PVC
-    PVC -->|Correlates| PV
     PV -->|Represents| LocalVolume
     StorageClass -->|Creates| PV
     VolumeAttachment -->|Correlates| Node
