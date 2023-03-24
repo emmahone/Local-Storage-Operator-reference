@@ -16,7 +16,7 @@ graph LR
     LocalVolumeSet -->|Automatically manages LocalVolume objects|LocalVolume
 ```
 
-The `Local Storage Operator (LSO)` allows an administrator to configure a storageclass to provision and manage persistent volumes of the `local volume` type. This greatly simplifies the management of local storage in an Openshift cluster. It provides a declarative approach to managing local storage and automates many of the manual tasks associated with creating and managing local volumes.
+The `Local Storage Operator (LSO)` allows an administrator to configure a storageclass to provision and manage persistent volumes of the `localVolume` type. This greatly simplifies the management of local storage in an Openshift cluster. It provides a declarative approach to managing local storage and automates many of the manual tasks associated with creating and managing local volumes.
 
 The Local Storage Operator allows you to define local storage classes, which represent local storage devices attached to worker nodes in your cluster. These local storage classes can be used to provision local volumes on those nodes. When a Pod requests a local volume using one of these storage classes, the Local Storage Operator ensures that the volume is created and attached to the correct node.
 
