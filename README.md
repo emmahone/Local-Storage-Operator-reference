@@ -449,7 +449,7 @@ $ oc get pv
 Example output:
 ```
 NAME                CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS           REASON   AGE
-local-pv-1cec77cf   100Gi      RWO            Delete           Available           example-storageclass    In case others hit that, when you press the 'Save for Later' button, it brings you to the 'Revise Goals' page. That is where the goals 'disappeared'. If you go back to 'My Individual Goals' all 4 will show up again.         88m
+local-pv-1cec77cf   100Gi      RWO            Delete           Available           example-storageclass            88m
 local-pv-2ef7cd2a   100Gi      RWO            Delete           Available           example-storageclass            82m
 local-pv-3fa1c73    100Gi      RWO            Delete           Available           example-storageclass            48m
 ```
