@@ -1,6 +1,4 @@
-# Local Storage Operator
-
-## The Local Storage Operator (LSO)
+# The Local Storage Operator (LSO)
 ```mermaid
 graph LR
     PVC -->|Requests local storage using a StorageClass| StorageClass
