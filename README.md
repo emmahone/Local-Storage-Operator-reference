@@ -36,7 +36,7 @@ VolumeAttachments are automatically created and managed by Openshift, so users d
 [Source](https://docs.openshift.com/container-platform/4.12/rest_api/storage_apis/volumeattachment-storage-k8s-io-v1.html)
 
 ## What is a Local Volume?
-In Kubernetes, a `local volume` represents a storage volume that is physically attached to the node where the Pod is scheduled. This means that the data stored in the local volume is only accessible to the Pod running on that specific node, and not to other Pods in the cluster. Local volumes are useful for storing data that is specific to a particular node or Pod, such as node-specific logs or cache data. 
+In Kubernetes, a `localVolume` represents a storage volume that is physically attached to the node where the Pod is scheduled. This means that the data stored in the local volume is only accessible to the Pod running on that specific node, and not to other Pods in the cluster. Local volumes are useful for storing data that is specific to a particular node or Pod, such as node-specific logs or cache data. 
 
 Local volumes are similar to hostPath volumes, but they provide some additional benefits. Specifically, local volumes allow you to decouple the Pod from the underlying node's file system layout, which can help with maintainability and portability.
 
