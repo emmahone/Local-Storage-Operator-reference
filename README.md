@@ -387,10 +387,15 @@ A local volume discovery instance named `auto-discover-devices` is displayed.
 ## How to automatically provision local volumes for the discovered devices from the web console
 
   a) Navigate to `Operators` → `Installed Operators` and select `Local Storage` from the list of Operators.
+  
   b) Select `Local Volume Set` → `Create Local Volume Set`.
+  
   c) Enter a volume set name and a storage class name.
+  
   d) Choose `All nodes` or `Select nodes` to apply filters accordingly.
+  
     NOTE: Only worker nodes are available, regardless of whether you filter using All nodes or Select nodes.
+    
   e) Select the disk type, mode, size, and limit you want to apply to the local volume set, and click Create.
   
   A message displays after several minutes, indicating that the "Operator reconciled successfully."
