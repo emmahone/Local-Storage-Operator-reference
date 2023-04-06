@@ -9,7 +9,6 @@ graph LR
     StorageClass -->|Creates| PV
     VolumeAttachment -->|Correlates| Node
     VolumeAttachment -->|Correlates| PV
-    LSO((Local Storage Operator)) -->|Ensures the LocalVolume is deleted when no longer needed| VolumeDeletion((VolumeDeletion))
     LSO((Local Storage Operator)) -->|Manages| LocalVolume
     LSO((Local Storage Operator)) -->|Manages| StorageClass
     LocalVolumeSet -->|Discovers local storage devices on node| Node
