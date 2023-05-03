@@ -2,15 +2,13 @@
 ```mermaid
 graph LR
     PVC -->|Requests local storage using a StorageClass| StorageClass
-    StorageClass -->|Defines a LocalVolume| LocalVolume
     LocalVolume -->|Represents a physical storage device already mounted/existent on a node| Node
     Pod -->|References a PVC| PVC
     PV -->|References| LocalVolume
-    StorageClass -->|Creates| PV
     LSO((Local Storage Operator)) -->|Manages| LocalVolume
     LSO((Local Storage Operator)) -->|Manages| StorageClass
     LocalVolumeSet -->|Discovers local storage devices on node| Node
-    LocalVolumeSet -->|Automatically manages LocalVolume objects|LocalVolume
+    LocalVolumeSet -->|Creates| PV
 ```
 
 The `Local Storage Operator (LSO)` allows an administrator to configure a storageclass to provision and manage persistent volumes of the `localVolume` type. This greatly simplifies the management of local storage in an Openshift cluster. It provides a declarative approach to managing local storage and automates many of the manual tasks associated with creating and managing local volumes.
