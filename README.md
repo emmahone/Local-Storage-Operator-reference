@@ -7,8 +7,6 @@ graph LR
     Pod -->|References a PVC| PVC
     PV -->|References| LocalVolume
     StorageClass -->|Creates| PV
-    VolumeAttachment -->|Correlates| Node
-    VolumeAttachment -->|Correlates| PV
     LSO((Local Storage Operator)) -->|Manages| LocalVolume
     LSO((Local Storage Operator)) -->|Manages| StorageClass
     LocalVolumeSet -->|Discovers local storage devices on node| Node
@@ -24,15 +22,6 @@ In addition to volume provisioning, the Local Storage Operator also supports fea
 Overall, the Local Storage Operator simplifies the management of local storage in OpenShift, making it easier to provision and manage local volumes in a declarative and automated way.
 
 [Source](https://docs.openshift.com/container-platform/4.12/storage/persistent_storage/persistent_storage_local/persistent-storage-local.html)
-
-## What is a VolumeAttachment?
-A `VolumeAttachment` is a resource that represents the connection between a `PersistentVolume` and a `node` in the cluster. When a `Pod` is scheduled on a `node`, the kube-scheduler tries to find a suitable `PersistentVolume` to bind to the Pod's `PersistentVolumeClaim`. If a suitable `PersistentVolume` is found, a `VolumeAttachment` is created to represent the connection between the `PersistentVolume` and the `node` where the `Pod` is running.
-
-The VolumeAttachment resource contains information about the PersistentVolume, the node where the Pod is running, and the mount point where the PersistentVolume is attached to the node. This information is used by the kubelet to mount the PersistentVolume into the Pod's container.
-
-VolumeAttachments are automatically created and managed by Openshift, so users don't need to create them manually. When a Pod is deleted or rescheduled, the associated VolumeAttachment is also automatically deleted or updated to reflect the new node where the Pod is running.
-
-[Source](https://docs.openshift.com/container-platform/4.12/rest_api/storage_apis/volumeattachment-storage-k8s-io-v1.html)
 
 ## What is a Local Volume?
 In Kubernetes, a `localVolume` represents a storage volume that is physically attached to the node where the Pod is scheduled. This means that the data stored in the local volume is only accessible to the Pod running on that specific node, and not to other Pods in the cluster. Local volumes are useful for storing data that is specific to a particular node or Pod, such as node-specific logs or cache data. 
