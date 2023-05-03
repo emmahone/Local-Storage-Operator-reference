@@ -3,7 +3,7 @@
 graph LR
     PVC -->|Requests local storage using a StorageClass| StorageClass
     StorageClass -->|Defines a LocalVolume| LocalVolume
-    LocalVolume -->|Represents a physical storage device already mounted on a node| Node
+    LocalVolume -->|Represents a physical storage device already mounted/existent on a node| Node
     Pod -->|References a PVC| PVC
     PV -->|References| LocalVolume
     StorageClass -->|Creates| PV
@@ -159,7 +159,7 @@ After all checks have passed, the Local Storage Operator is installed successful
 ## Custom resources managed by the LSO
 ```mermaid
 graph LR
-    User((User)) -->|Enables| LocalVolumeDiscovery
+    User((User)) -->|Creates| LocalVolumeDiscovery
     User -->|Creates| LocalVolumeSet
     User -->|Creates| LocalVolume
     LocalStorageOperator((LocalStorageOperator)) -->|Manages| LocalVolumeDiscovery
